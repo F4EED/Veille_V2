@@ -538,49 +538,47 @@ const V3 = {
 
 const TEINTES = ["#dff25a", "#ff8a4c", "#9dffc3", "#f3f0e2", "#8eb4ff", "#f2c14e", "#e07a9a", "#c9b6ff"];
 
-function placeSphere(index, total, rayon) {
-  if (total <= 1) return [rayon, 0, 0];
-  const hauteur = 1 - (index / (total - 1)) * 2;
-  const anneau = Math.sqrt(Math.max(0, 1 - hauteur * hauteur));
-  const angle = Math.PI * (3 - Math.sqrt(5)) * index;
-  return [Math.cos(angle) * anneau * rayon, hauteur * rayon * 0.72, Math.sin(angle) * anneau * rayon];
+function placeOrbite(index, total, rayon) {
+  const angle = (index / Math.max(total, 1)) * Math.PI * 2 - Math.PI / 2;
+  const bande = Math.sin(angle * 2) * 0.42;
+  const y = Math.sin(bande) * rayon;
+  const anneau = Math.cos(bande) * rayon;
+  return [Math.cos(angle) * anneau, y, Math.sin(angle) * anneau];
 }
 
 function sceneDepuis(data) {
   const noeuds = [];
   const liens = [];
   const rubriques = (data.rubriques || []).filter((rubrique) => rubrique.nombre || (rubrique.mots || []).length);
+  const pieces = [];
   rubriques.forEach((rubrique, index) => {
-    const [x, y, z] = placeSphere(index, rubriques.length, 260);
-    const id = `r${index}`;
-    noeuds.push({
-      id,
+    const teinte = TEINTES[index % TEINTES.length];
+    const groupe = `r${index}`;
+    pieces.push({
+      id: groupe,
       kind: "rubrique",
       label: rubrique.label,
       nombre: rubrique.nombre || 0,
-      x,
-      y,
-      z,
-      teinte: TEINTES[index % TEINTES.length],
+      teinte,
+      parent: "centre",
     });
-    liens.push(["centre", id]);
-    const mots = rubrique.mots || [];
-    mots.forEach((mot, ordre) => {
-      const local = placeSphere(ordre, mots.length, 78 + Math.min(36, mots.length * 3));
-      const mid = `m${index}-${ordre}`;
-      noeuds.push({
-        id: mid,
+    (rubrique.mots || []).forEach((mot, ordre) => {
+      pieces.push({
+        id: `m${index}-${ordre}`,
         kind: "mot",
         label: mot.mot,
         nombre: mot.nombre || 0,
         articles: mot.articles || [],
-        x: x + local[0],
-        y: y + local[1],
-        z: z + local[2],
-        teinte: TEINTES[index % TEINTES.length],
+        teinte,
+        parent: "centre",
       });
-      liens.push([id, mid]);
     });
+  });
+  const rayon = 260 + Math.min(40, pieces.length * 2);
+  pieces.forEach((piece, index) => {
+    const [x, y, z] = placeOrbite(index, pieces.length, rayon);
+    noeuds.push({ ...piece, x, y, z });
+    liens.push([piece.parent, piece.id]);
   });
   return { titre: data.titre || "Veille", total: data.total || 0, jours: data.periode_jours || S.jours, noeuds, liens };
 }
@@ -615,8 +613,8 @@ function dessinerVue3d() {
     if (!a || !b) continue;
     const pa = projeter(a, largeur, hauteur);
     const pb = projeter(b, largeur, hauteur);
-    ctx.strokeStyle = "rgba(243, 240, 226, 0.22)";
-    ctx.lineWidth = depart === "centre" ? 1.4 : 1;
+    ctx.strokeStyle = depart === "centre" ? "rgba(223, 242, 90, 0.28)" : "rgba(243, 240, 226, 0.22)";
+    ctx.lineWidth = depart === "centre" ? 1.3 : 1;
     ctx.beginPath();
     ctx.moveTo(pa.x, pa.y);
     ctx.lineTo(pb.x, pb.y);
@@ -626,7 +624,7 @@ function dessinerVue3d() {
     .map((noeud) => ({ noeud, p: projeter(noeud, largeur, hauteur) }))
     .sort((a, b) => b.p.z - a.p.z);
   for (const { noeud, p } of ordre) {
-    const rayon = (noeud.kind === "rubrique" ? 11 : 5 + Math.min(7, Math.sqrt(noeud.nombre || 0))) * p.echelle;
+    const rayon = (noeud.kind === "rubrique" ? 8 : 5 + Math.min(7, Math.sqrt(noeud.nombre || 0))) * p.echelle;
     noeud._rayon = Math.max(2, rayon);
     noeud._p = p;
     ctx.fillStyle = noeud.teinte;
@@ -663,6 +661,12 @@ function dessinerVue3d() {
     ctx.fillText(texte, x, y);
   }
   const titre = scene.titre;
+  const milieu = projeter({ x: 0, y: 0, z: 0 }, largeur, hauteur);
+  ctx.strokeStyle = "rgba(223, 242, 90, 0.55)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(milieu.x, milieu.y, 58 * V3.zoom, 0, Math.PI * 2);
+  ctx.stroke();
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.font = '600 42px "Palatino Linotype", Palatino, Georgia, serif';

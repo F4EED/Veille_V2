@@ -27,7 +27,7 @@ L’onglet **Mots** montre les rubriques et leurs mots.
 
 ## Vue 3D
 
-Le bouton **3D**, à côté de Mots, Radar et Sources, ouvre une fenêtre. Le nom de la veille reste au centre. Autour, les rubriques forment des groupes, et les mots-clés de chaque rubrique tournent avec elles. La taille d’un mot suit le nombre d’articles de la fenêtre en cours. Glisser fait tourner la vue, la molette rapproche, **Rotation** relance le mouvement automatique. Un clic sur un mot-clé ouvre à droite les résumés des articles trouvés ; le titre ouvre l’article dans un autre onglet. Échap ou **Fermer** quitte la fenêtre.
+Le bouton **3D**, à côté de Mots, Radar et Sources, ouvre une fenêtre. Le nom de la veille est le groupe parent, au centre. Chaque rubrique, comme Général, est un groupe enfant sur la même orbite que ses mots-clés. Tout tourne autour du nom. La taille d’un mot suit le nombre d’articles de la fenêtre en cours. Glisser fait tourner la vue, la molette rapproche, **Rotation** relance le mouvement automatique. Un clic sur un mot-clé ouvre à droite les résumés des articles trouvés ; le titre ouvre l’article dans un autre onglet. Échap ou **Fermer** quitte la fenêtre.
 
 ## Radar
 
