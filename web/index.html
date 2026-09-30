@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veille vive</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <div class="marque">
+      <span class="sceau">V2</span>
+      <div>
+        <strong>Veille vive</strong>
+        <p>Une collecte. Sept filtres. Un mot, et ça part chercher.</p>
+      </div>
+    </div>
+    <div class="progression" id="progression" hidden>
+      <span id="prog-msg"></span>
+      <div class="piste"><i id="prog-i"></i></div>
+    </div>
+    <div class="actions">
+      <span id="compteurs" class="compteurs"></span>
+      <button type="button" id="rafraichir">Rafraîchir les flux</button>
+    </div>
+  </header>
+  <div class="corps">
+    <aside class="rail">
+      <p class="legende">Veilles</p>
+      <nav id="veilles"></nav>
+      <form id="nouvelle" class="nouvelle">
+        <input name="titre" placeholder="Nouvelle veille" required minlength="2" autocomplete="off">
+        <button type="submit">Créer</button>
+      </form>
+    </aside>
+    <main>
+      <div class="barre">
+        <div>
+          <h1 id="titre">…</h1>
+          <p id="perimetre"></p>
+        </div>
+        <div class="fenetre" id="fenetre"></div>
+      </div>
+      <div class="exports">
+        <span>Publier sur les Pages Perso</span>
+        <button type="button" data-format="pdf">PDF</button>
+        <button type="button" data-format="html">HTML</button>
+        <button type="button" data-format="md">MD</button>
+        <button type="button" id="exporter-tout" class="tout">Toutes les veilles</button>
+        <p id="export-msg"></p>
+      </div>
+      <div class="rubriques" id="rubriques"></div>
+      <div class="outils">
+        <input id="filtre-texte" type="search" placeholder="Filtrer les titres déjà lus" autocomplete="off">
+        <span id="volume"></span>
+      </div>
+      <div id="articles" class="articles"></div>
+    </main>
+    <aside class="atelier">
+      <div class="onglets">
+        <button type="button" data-onglet="mots" class="actif">Mots</button>
+        <button type="button" data-onglet="radar">Radar</button>
+        <button type="button" data-onglet="sources">Sources</button>
+        <button type="button" id="vue3d-ouvrir">3D</button>
+      </div>
+      <div id="panneau"></div>
+    </aside>
+  </div>
+  <div id="vue3d" class="vue3d" hidden>
+    <div class="vue3d-barre">
+      <strong id="vue3d-titre">Vue 3D</strong>
+      <span id="vue3d-meta"></span>
+      <button type="button" id="vue3d-rotation" class="secondaire">Rotation</button>
+      <button type="button" id="vue3d-fermer" class="secondaire">Fermer</button>
+    </div>
+    <div class="vue3d-scene">
+      <canvas id="vue3d-canvas"></canvas>
+      <aside id="vue3d-liste" hidden>
+        <div class="vue3d-liste-barre">
+          <strong id="vue3d-mot"></strong>
+          <button type="button" id="vue3d-liste-fermer" class="secondaire">Fermer</button>
+        </div>
+        <div id="vue3d-cartes"></div>
+      </aside>
+    </div>
+    <p class="vue3d-aide">Glisser pour tourner autour du nom. Cliquer un mot-clé pour lire les résumés. Molette pour approcher.</p>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

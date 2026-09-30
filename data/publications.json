@@ -1,0 +1,82 @@
+{
+  "iot": {
+    "fichiers": {
+      "pdf": "Veille_IOT.pdf",
+      "html": "Veille_IOT.html",
+      "md": "Veille_IOT.md"
+    },
+    "titre": "IoT",
+    "perimetre": "Objets connectés, LoRa, mesh, routes, radio.",
+    "maj": "30/09/2026 à 00:21"
+  },
+  "crise": {
+    "fichiers": {
+      "pdf": "Veille_Crise.pdf",
+      "html": "Veille_Crise.html",
+      "md": "Veille_Crise.md"
+    },
+    "titre": "Crise",
+    "perimetre": "Risques, alertes, aléas, gestion de crise.",
+    "maj": "30/09/2026 à 00:22"
+  },
+  "radio": {
+    "fichiers": {
+      "pdf": "Veille_Radio.pdf",
+      "html": "Veille_Radio.html",
+      "md": "Veille_Radio.md"
+    },
+    "titre": "Radio",
+    "perimetre": "Radioamateur, modes digitaux, SDR, trafic.",
+    "maj": "30/09/2026 à 00:22"
+  },
+  "outils": {
+    "fichiers": {
+      "pdf": "Veille_Outils_PC.pdf",
+      "html": "Veille_Outils_PC.html",
+      "md": "Veille_Outils_PC.md"
+    },
+    "titre": "Outils PC",
+    "perimetre": "Logiciels de crise et poste de commandement.",
+    "maj": "30/09/2026 à 00:22"
+  },
+  "blackout": {
+    "fichiers": {
+      "pdf": "Veille_Blackout.pdf",
+      "html": "Veille_Blackout.html",
+      "md": "Veille_Blackout.md"
+    },
+    "titre": "Black-out",
+    "perimetre": "Réseau électrique, délestage, résilience.",
+    "maj": "30/09/2026 à 00:22"
+  },
+  "geomatique": {
+    "fichiers": {
+      "pdf": "Veille_Geomatique.pdf",
+      "html": "Veille_Geomatique.html",
+      "md": "Veille_Geomatique.md"
+    },
+    "titre": "Géomatique",
+    "perimetre": "QGIS, cartographie, lidar, données géographiques.",
+    "maj": "30/09/2026 à 00:22"
+  },
+  "mesh": {
+    "fichiers": {
+      "pdf": "Veille_Mesh.pdf",
+      "html": "Veille_Mesh.html",
+      "md": "Veille_Mesh.md"
+    },
+    "titre": "Mesh",
+    "perimetre": "Meshtastic, MeshCore, firmwares et mesh Wi-Fi.",
+    "maj": "30/09/2026 à 00:22"
+  },
+  "csu": {
+    "fichiers": {
+      "pdf": "Veille_CSU.pdf",
+      "html": "Veille_CSU.html",
+      "md": "Veille_CSU.md"
+    },
+    "titre": "CSU",
+    "perimetre": "Veille créée dans la console.",
+    "maj": "30/09/2026 à 00:22"
+  }
+}
