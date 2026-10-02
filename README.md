@@ -1,6 +1,6 @@
 # Veille 2
 
-Version actuelle : **2.1.0**. L’historique est dans [CHANGELOG.md](CHANGELOG.md).
+Version actuelle : **2.1.1**. L’historique est dans [CHANGELOG.md](CHANGELOG.md).
 
 Console locale de veille technologique et de crise. Elle tourne sur le poste, à l’adresse http://127.0.0.1:8770. Les Pages Perso ne font qu’afficher les rapports déjà déposés : https://f4eed.pages-perso.free.fr/Veille_2/
 

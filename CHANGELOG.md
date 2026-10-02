@@ -1,5 +1,9 @@
 # Versions
 
+## 2.1.1
+
+- Correction du démarrage : le numéro de version empêchait la console de se lancer.
+
 ## 2.1.0
 
 - Courriel choisi adresse par adresse : chaque destinataire reçoit les veilles cochées.
