@@ -1,12 +1,14 @@
 # Veille 2
 
+Version actuelle : **2.1.0**. L’historique est dans [CHANGELOG.md](CHANGELOG.md).
+
 Console locale de veille technologique et de crise. Elle tourne sur le poste, à l’adresse http://127.0.0.1:8770. Les Pages Perso ne font qu’afficher les rapports déjà déposés : https://f4eed.pages-perso.free.fr/Veille_2/
 
 Le principe est simple. Les flux sont lus **une fois**, en parallèle, et rangés dans `data\veille.sqlite`. Chaque veille est ensuite un filtre immédiat sur cette base. Changer un mot-clé, une rubrique ou la fenêtre de jours réaffiche les articles déjà collectés. Seul **Rafraîchir les flux**, **Chercher** ou l’ajout d’un nouveau flux relance un téléchargement.
 
 Le catalogue et les mots-clés de `C:\Apps\veille_techno` sont copiés au premier lancement. Ensuite, les mots-clés, les veilles créées dans la console et les flux ajoutés par le radar restent dans SQLite. Les fichiers YAML de la veille d’origine ne sont pas réécrits.
 
-Le courriel du matin et les rapports du dossier `veille` restent ceux de `C:\Apps\veille_techno`. Veille 2 publie à part, dans le dossier FTP `Veille_2`.
+Le courriel du matin et les rapports du dossier `veille` restent ceux de `C:\Apps\veille_techno`. Veille 2 publie à part, dans le dossier FTP `Veille_2`, et peut envoyer elle-même un courriel dont le contenu se choisit adresse par adresse.
 
 ## Veille d’origine et Veille 2
 
@@ -17,7 +19,7 @@ Le courriel du matin et les rapports du dossier `veille` restent ceux de `C:\App
 | Collecte | Une passe par veille | Une passe pour toutes les veilles |
 | Mots-clés | Fichiers `keywords*.yaml` | Base SQLite, modifiables dans l’interface |
 | Lecture | Rapport produit à la fin de la passe | Liste filtrée tout de suite dans le navigateur |
-| Formats | PDF et HTML, plus le courriel | PDF, HTML et Markdown, sans courriel |
+| Formats | PDF et HTML, plus le courriel du matin | PDF, HTML et Markdown, et un courriel choisi adresse par adresse |
 | Publication | https://f4eed.pages-perso.free.fr/veille/ | https://f4eed.pages-perso.free.fr/Veille_2/ |
 
 ## Veilles importées
@@ -205,7 +207,9 @@ Les noms stables sont `Veille_IOT`, `Veille_Crise`, `Veille_Radio`, `Veille_Outi
 
 Le Markdown a un sommaire, une section par rubrique, et pour chaque article la source, la date, les mots, un extrait et le lien. Le HTML reprend les mêmes articles, y compris pour un écran étroit. Le PDF est un rapport A4 : titre, périmètre, nombre d’articles, fenêtre et date, sommaire, puis une carte par article. Georgia pour les titres, Calibri pour le texte.
 
-Le courriel du matin n’est pas envoyé par cette console. Le changer se fait dans la veille d’origine. Détail : [docs/publication.md](docs/publication.md).
+L’onglet **Courriel** choisit, pour chaque adresse, les veilles à envoyer. **Envoyer** expédie le message tout de suite, avec les liens vers les fichiers des Pages Perso et quelques titres. La boîte SMTP reste celle de la veille d’origine. Le courriel automatique du matin, lui, reste programmé dans `C:\Apps\veille_techno`. Détail : [docs/publication.md](docs/publication.md).
+
+Le catalogue comprend aussi le flux du Haut Comité Français pour la Résilience Nationale, https://www.hcfrn.org/ (`blog-feed.xml`). Il est lu comme les autres flux : chaque veille n’en garde que les articles qui correspondent à ses mots.
 
 ## Fichiers
 
@@ -221,6 +225,7 @@ Le courriel du matin n’est pas envoyé par cette console. Le changer se fait d
 | `veille_v2/decouverte.py` | Recherche d’un mot et radar de nouveaux flux |
 | `veille_v2/reseaux.py` | Recherches X, Instagram et Snap |
 | `veille_v2/export.py` | PDF, HTML, Markdown et dépôt FTP |
+| `veille_v2/courriel.py` | Envoi des veilles, adresse par adresse |
 | `veille_v2/magasin.py` | Base SQLite |
 | `veille_v2/seed.py` | Import unique du catalogue de la veille d’origine |
 | `veille_v2/texte.py` | Normalisation des textes et des mots |

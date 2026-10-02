@@ -1,5 +1,7 @@
 """Veille vive : collecte unique, veilles et mots-clés immédiats."""
 
+__version__ = "2.1.0"
+
 from __future__ import annotations
 
 import sys

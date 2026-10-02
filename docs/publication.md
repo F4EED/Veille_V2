@@ -48,4 +48,10 @@ Ils ne sont pas recopiés dans Veille 2. Le programme lit :
 
 Le serveur par défaut est `ftpperso.free.fr`. L’identifiant Free est le login Pages Perso, sans `@`. Le dossier distant est fixé à `Veille_2`. S’il n’existe pas, il est créé au premier dépôt.
 
-Changer un destinataire ou couper le courriel du matin se fait dans la veille d’origine, pas ici. Voir `C:\Apps\veille_techno\docs\paramétrage.md`.
+## Courriel
+
+L’onglet **Courriel** de la console choisit, adresse par adresse, les veilles à envoyer. Au premier lancement, le carnet reprend `destinataires` et `destinataires_profils` de `config\email.yaml` : les adresses communes reçoivent toutes les veilles déjà présentes, les adresses d’un profil ne reçoivent que ce profil. Ensuite, les cases de la console font foi. Le fichier YAML n’est pas réécrit.
+
+**Envoyer** expédie un message à cette adresse, avec les veilles cochées. **Envoyer à toutes les adresses** fait de même pour tout le carnet. Chaque message contient, par veille, le nombre d’articles, les liens PDF, HTML et Markdown des Pages Perso, et quelques titres. La fenêtre est celle enregistrée pour la veille.
+
+L’envoi utilise la boîte SMTP de la veille d’origine (`smtp` et `expediteur` dans `email.yaml`, mot de passe dans `email.secrets.yaml`). Le courriel automatique du matin, lui, reste programmé dans `C:\Apps\veille_techno`. Voir `C:\Apps\veille_techno\docs\paramétrage.md`.

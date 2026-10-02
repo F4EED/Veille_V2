@@ -76,6 +76,10 @@ CREATE TABLE IF NOT EXISTS articles (
 );
 CREATE INDEX IF NOT EXISTS idx_articles_date ON articles(date_pub);
 CREATE INDEX IF NOT EXISTS idx_articles_source ON articles(source_id);
+CREATE TABLE IF NOT EXISTS courriels (
+    email TEXT PRIMARY KEY,
+    profils TEXT NOT NULL DEFAULT '[]'
+);
 CREATE TABLE IF NOT EXISTS candidats (
     url TEXT PRIMARY KEY,
     nom TEXT NOT NULL,
@@ -362,6 +366,43 @@ def stats_sources() -> dict[str, int]:
         articles = conn.execute("SELECT COUNT(*) AS n FROM articles").fetchone()["n"]
         wms = conn.execute("SELECT COUNT(*) AS n FROM sources WHERE kind = 'wms'").fetchone()["n"]
     return {"sources": total, "sources_ok": ok, "sources_erreur": erreurs, "articles": articles, "wms": wms}
+
+
+def courriels() -> list[dict[str, Any]]:
+    with connecter() as conn:
+        rows = conn.execute("SELECT email, profils FROM courriels ORDER BY email").fetchall()
+    resultat = []
+    for row in rows:
+        try:
+            profils = json.loads(row["profils"] or "[]")
+        except json.JSONDecodeError:
+            profils = []
+        resultat.append({"email": row["email"], "profils": [str(p) for p in profils]})
+    return resultat
+
+
+def enregistrer_courriel(email: str, profils: list[str]) -> None:
+    adresse = email.strip().lower()
+    propres = []
+    vus: set[str] = set()
+    for profil in profils:
+        identifiant = str(profil).strip()
+        if identifiant and identifiant not in vus:
+            vus.add(identifiant)
+            propres.append(identifiant)
+    with connecter() as conn:
+        conn.execute(
+            """
+            INSERT INTO courriels(email, profils) VALUES(?, ?)
+            ON CONFLICT(email) DO UPDATE SET profils = excluded.profils
+            """,
+            (adresse, json.dumps(propres, ensure_ascii=False)),
+        )
+
+
+def retirer_courriel(email: str) -> None:
+    with connecter() as conn:
+        conn.execute("DELETE FROM courriels WHERE email = ?", (email.strip().lower(),))
 
 
 def liste_sources(limite: int = 400) -> list[dict[str, Any]]:

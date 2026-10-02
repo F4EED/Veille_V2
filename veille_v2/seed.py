@@ -48,12 +48,52 @@ def _requete_site(sites: list[str], query: str) -> str:
     return f"({clause}) ({query})"
 
 
+HCFRN = {
+    "id": "hcfrn",
+    "nom": "HCFRN",
+    "url": "https://www.hcfrn.org/blog-feed.xml",
+    "site": "https://www.hcfrn.org/",
+    "kind": "flux",
+    "filtre": "mots_cles",
+}
+
+
+def _complements() -> None:
+    """Sources ajoutées après le premier import, et carnet d'envoi initial."""
+    if magasin.source_par_url(HCFRN["url"]) is None:
+        magasin.enregistrer_source(HCFRN)
+    if magasin.meta("courriel") == "1":
+        return
+    cfg = _charger(V1 / "email.yaml")
+    identifiants = [fiche["id"] for fiche in magasin.profils()]
+    connus = {fiche["id"] for fiche in magasin.profils()}
+    for adresse in cfg.get("destinataires") or []:
+        if str(adresse).strip():
+            magasin.enregistrer_courriel(str(adresse), identifiants)
+    for profil, adresses in (cfg.get("destinataires_profils") or {}).items():
+        if profil not in connus:
+            continue
+        deja = {ligne["email"]: list(ligne["profils"]) for ligne in magasin.courriels()}
+        for adresse in adresses or []:
+            if not str(adresse).strip():
+                continue
+            cle = str(adresse).strip().lower()
+            profils = deja.get(cle, [])
+            if profil not in profils:
+                profils.append(profil)
+            magasin.enregistrer_courriel(cle, profils)
+            deja[cle] = profils
+    magasin.ecrire_meta("courriel", "1")
+
+
 def assurer() -> dict[str, int]:
     magasin.initialiser()
     if magasin.meta("seed") == "1":
+        _complements()
         return {"deja": 1}
     if not (V1 / "sources.yaml").exists():
         magasin.ecrire_meta("seed", "1")
+        _complements()
         return {"sans_v1": 1}
 
     sources = _charger(V1 / "sources.yaml")
@@ -222,5 +262,6 @@ def assurer() -> dict[str, int]:
 
     magasin.ecrire_meta("seed", "1")
     magasin.toucher()
+    _complements()
     stats = magasin.stats_sources()
     return {"profils": len(PROFILS), **stats}

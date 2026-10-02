@@ -22,6 +22,7 @@ Les sources vivent dans `data\veille.sqlite`, table `sources`. L’import initia
 | X, Instagram, Snap | À chaque rafraîchissement, les mots-clés des rubriques sont cherchés sur ces réseaux via Google News, en français et en anglais |
 | WMS | Enregistré, non téléchargé comme un fil d’articles |
 | Flux ajouté par le radar | `mots_cles`, visible par toutes les veilles, chacune filtrant avec ses mots |
+| HCFRN | Flux `https://www.hcfrn.org/blog-feed.xml`, site https://www.hcfrn.org/. Lu comme les autres flux RSS |
 
 L’onglet **Sources** liste le catalogue, les erreurs de lecture en tête.
 

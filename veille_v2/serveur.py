@@ -8,7 +8,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
-from veille_v2 import collecte, decouverte, export, filtre, magasin
+from veille_v2 import __version__, collecte, courriel, decouverte, export, filtre, magasin
 from veille_v2.seed import assurer
 
 WEB = Path(__file__).resolve().parent.parent / "web"
@@ -82,8 +82,14 @@ class Handler(BaseHTTPRequestHandler):
         if chemin == "/app.js":
             self._fichier("app.js", "text/javascript; charset=utf-8")
             return
+        if chemin in ("/vue3d", "/vue3d.html"):
+            self._fichier("vue3d.html", "text/html; charset=utf-8")
+            return
+        if chemin == "/vue3d.js":
+            self._fichier("vue3d.js", "text/javascript; charset=utf-8")
+            return
         if chemin == "/api/etat":
-            self._json(200, {**magasin.stats_sources(), "job": collecte.etat_job()})
+            self._json(200, {**magasin.stats_sources(), "job": collecte.etat_job(), "version": __version__})
             return
         if chemin == "/api/profils":
             self._json(200, {"profils": magasin.profils()})
@@ -106,6 +112,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         if chemin == "/api/sources":
             self._json(200, {"sources": magasin.liste_sources(2000)})
+            return
+        if chemin == "/api/courriels":
+            self._json(200, courriel.carnet())
             return
         if chemin == "/api/candidats":
             profil = (qs.get("profil") or [""])[0]
@@ -198,6 +207,24 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(400, {"erreur": str(exc)})
                 return
             self._json(200, resultat)
+            return
+        if chemin == "/api/courriels":
+            try:
+                self._json(200, courriel.definir(str(corps.get("email") or ""), list(corps.get("profils") or [])))
+            except ValueError as exc:
+                self._json(400, {"erreur": str(exc)})
+            return
+        if chemin == "/api/courriels/retirer":
+            try:
+                self._json(200, courriel.retirer(str(corps.get("email") or "")))
+            except ValueError as exc:
+                self._json(400, {"erreur": str(exc)})
+            return
+        if chemin == "/api/courriels/envoyer":
+            if not courriel.demarrer(str(corps.get("email") or "")):
+                self._json(409, {"erreur": "Une tâche est déjà en cours."})
+                return
+            self._json(202, {"ok": True})
             return
         if chemin == "/api/publier-tout":
             if not export.demarrer_toutes():

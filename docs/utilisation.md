@@ -44,6 +44,10 @@ Le détail du classement est dans [sources.md](sources.md).
 
 En bas de la colonne de gauche, saisir un nom et **Créer**. La veille démarre avec une rubrique Général, une fenêtre de 7 jours, et les articles du catalogue qui correspondent aux mots qu’on y ajoute.
 
+## Courriel
+
+L’onglet **Courriel** liste les adresses. Cocher une veille l’ajoute à l’envoi de cette adresse. **Envoyer** part tout de suite pour elle. **Envoyer à toutes les adresses** parcourt le carnet. Le détail est dans [publication.md](publication.md).
+
 ## Publier
 
 Sous le titre de la veille :

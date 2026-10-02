@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vue 3D</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="vue3d" class="vue3d">
+    <div class="vue3d-barre">
+      <strong id="vue3d-titre">Vue 3D</strong>
+      <span id="vue3d-meta"></span>
+      <button type="button" id="vue3d-rotation" class="secondaire actif">Rotation</button>
+      <button type="button" id="vue3d-fermer" class="secondaire">Fermer</button>
+    </div>
+    <div class="vue3d-scene">
+      <canvas id="vue3d-canvas"></canvas>
+      <aside id="vue3d-liste" hidden>
+        <div class="vue3d-liste-barre">
+          <strong id="vue3d-mot"></strong>
+          <button type="button" id="vue3d-liste-fermer" class="secondaire">Fermer</button>
+        </div>
+        <div id="vue3d-cartes"></div>
+      </aside>
+    </div>
+    <p class="vue3d-aide">Glisser pour tourner autour du nom. Cliquer un mot-clé pour lire les résumés. Molette pour approcher.</p>
+  </div>
+  <script src="/vue3d.js"></script>
+</body>
+</html>
